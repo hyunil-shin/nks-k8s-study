@@ -1,0 +1,92 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: nba
+  annotations:
+    kubernets.io/ingress.class: nginx
+  name: foo-nginx-ingress-hello
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: hello.10.254.159.249.sslip.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: demo
+            port:
+              number: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: nba
+  annotations:
+    kubernets.io/ingress.class: nginx
+  name: foo-nginx-ingress-apache
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: apache.10.254.159.249.sslip.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: apache
+            port:
+              number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: nba
+  annotations:
+    kubernets.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: basic-auth
+    nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - foo'
+  name: foo-nginx-ingress-auth
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: auth.10.254.159.249.sslip.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: apache
+            port:
+              number: 80
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: nba
+  annotations:
+    kubernets.io/ingress.class: nginx
+  name: foo-nginx-ingress-cert
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - cert.10.254.159.249.sslip.io
+    secretName: nba-cert-secret
+  rules:
+  - host: cert.10.254.159.249.sslip.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: apache
+            port:
+              number: 80
+
