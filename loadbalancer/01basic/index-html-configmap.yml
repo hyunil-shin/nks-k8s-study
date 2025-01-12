@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: bread
+  name: index-html-configmap
+data:
+  index.html: |
+    <html>
+    <h1>NHN Kubernets Service (NKS)</h1>
+    <body>
+    Studying NKS and k8s
+    </body>
+    </html>
