@@ -1,0 +1,55 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: nba-gsw
+  annotations:
+    kubernets.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: "true"
+  name: lb-demo
+spec:
+  ingressClassName: lb-nks
+  rules:
+  - host: 133.186.159.25.sslip.io
+    http:
+      paths:
+      - path: /demo
+        pathType: Prefix
+        backend:
+          service:
+            name: demo
+            port:
+              number: 8080
+      - path: /apache
+        pathType: Prefix
+        backend:
+          service:
+            name: apache
+            port:
+              number: 80
+      - path: /demo2
+        pathType: Prefix
+        backend:
+          service:
+            name: demo
+            port:
+              number: 8080
+  - host: apache.133.186.159.25.sslip.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: apache
+            port:
+              number: 80
+  - host: nginx.133.186.159.25.sslip.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-deployment
+            port:
+              number: 80
