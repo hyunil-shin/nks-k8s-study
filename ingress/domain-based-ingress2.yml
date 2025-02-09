@@ -1,0 +1,41 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: nba-gsw
+  annotations:
+    kubernets.io/ingress.class: nginx
+  name: foo-nginx-ingress-hello
+spec:
+  ingressClassName: tt
+  rules:
+  - host: demo.10.254.132.237.sslip.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: demo
+            port:
+              number: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: nba-gsw
+  annotations:
+    kubernets.io/ingress.class: nginx
+  name: foo-nginx-ingress-apache
+spec:
+  ingressClassName: tt
+  rules:
+  - host: apache.10.254.132.237.sslip.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: apache
+            port:
+              number: 80
